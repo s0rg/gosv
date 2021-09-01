@@ -27,17 +27,29 @@ type ruleSet struct {
 	forbid         []string
 }
 
-func calcRate(a, b int) float32 {
+func calcRate(a, b int) (c float32) {
 	return float32(a) / float32(b)
 }
 
-func (r *ruleSet) Validate(input string) error {
+func (r *ruleSet) Validate(input string) (err error) {
 	s := calcStats(input)
 
 	if !r.validLen(s.Len) {
 		return ErrBadLength
 	}
 
+	if err = r.validRates(&s); err != nil {
+		return err
+	}
+
+	if !r.checkForbidden(input) {
+		return ErrHasForbidden
+	}
+
+	return nil
+}
+
+func (r *ruleSet) validRates(s *stats) (err error) {
 	if !r.validLowers(s.Lowers) || !r.validUppers(s.Uppers) || !r.validNumbers(s.Numbers) {
 		return ErrBadCounts
 	}
@@ -50,13 +62,10 @@ func (r *ruleSet) Validate(input string) error {
 		return ErrBadDupRate
 	}
 
-	if !r.checkForbidden(input) {
-		return ErrHasForbidden
-	}
-
 	return nil
 }
 
+// Add rule to set.
 func (r *ruleSet) Add(rules ...Rule) *ruleSet {
 	for _, rfn := range rules {
 		rfn(r)
