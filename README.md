@@ -9,6 +9,21 @@
 golang rule-based string validator
 
 # usage
+```go
+import "github.com/s0rg/gosv"
+
+var MyRules = []gosv.Rule{
+	gosv.MinLen(8),
+	gosv.MaxLen(64),
+	gosv.MinLowers(1),
+	gosv.MinUppers(1),
+	gosv.MinNumbers(1),
+}
+
+func MyPasswordValidator(input string) error {
+    return gosv.Validate(input, MyRules...)
+}
+```
 
 # license
 
