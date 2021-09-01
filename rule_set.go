@@ -38,7 +38,7 @@ func (r *ruleSet) Validate(input string) (err error) {
 		return ErrBadLength
 	}
 
-	if err = r.validRates(&s); err != nil {
+	if err := r.validRates(&s); err != nil {
 		return err
 	}
 
