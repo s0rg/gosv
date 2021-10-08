@@ -3,6 +3,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/s0rg/gosv)](https://goreportcard.com/report/github.com/s0rg/gosv)
 [![Maintainability](https://api.codeclimate.com/v1/badges/e1c002df2b4571e01537/maintainability)](https://codeclimate.com/github/s0rg/gosv/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/e1c002df2b4571e01537/test_coverage)](https://codeclimate.com/github/s0rg/gosv/test_coverage)
+[![License](https://img.shields.io/badge/license-MIT%20License-blue.svg)](https://github.com/s0rg/gosv/blob/main/LICENSE)
 
 # gosv
 
@@ -18,6 +19,8 @@ var MyRules = []gosv.Rule{
 	gosv.MinLowers(1),
 	gosv.MinUppers(1),
 	gosv.MinNumbers(1),
+    gosv.MaxDuplicates(0.2), // allow 20% of duplicates
+    gosv.MaxSequencies(0.1), // allow 10% of sequencies (i.e. 'abc', '123')
 }
 
 func MyPasswordValidator(input string) error {
