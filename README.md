@@ -14,11 +14,11 @@ golang rule-based string validator
 import "github.com/s0rg/gosv"
 
 var MyRules = []gosv.Rule{
-	gosv.MinLen(8),
-	gosv.MaxLen(64),
-	gosv.MinLowers(1),
-	gosv.MinUppers(1),
-	gosv.MinNumbers(1),
+    gosv.MinLen(8),
+    gosv.MaxLen(64),
+    gosv.MinLowers(1),
+    gosv.MinUppers(1),
+    gosv.MinNumbers(1),
     gosv.MaxDuplicates(0.2), // allow 20% of duplicates
     gosv.MaxSequencies(0.1), // allow 10% of sequencies (i.e. 'abc', '123')
 }
