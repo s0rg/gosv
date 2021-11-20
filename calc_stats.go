@@ -4,12 +4,15 @@ import "unicode"
 
 func calcStats(input string) (s stats) {
 	var (
+		ent                = shannonEntropy()
 		prev               = rune(-1)
 		isChar, prevIsChar bool
 	)
 
 	for _, c := range input {
 		s.Len++
+
+		ent.Add(c)
 
 		switch {
 		case unicode.IsUpper(c):
@@ -37,6 +40,9 @@ func calcStats(input string) (s stats) {
 
 		prev, prevIsChar, isChar = c, isChar, false
 	}
+
+	s.Entropy = ent.Sum()
+	s.EntropyIdeal = ent.SumIdeal()
 
 	return s
 }

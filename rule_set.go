@@ -16,6 +16,8 @@ var (
 	ErrBadDupRate = errors.New("bad dup rate")
 	// ErrHasForbidden returned when some forbidden words found.
 	ErrHasForbidden = errors.New("has forbidden")
+	// ErrBadEntropy returned when entropy rate too low.
+	ErrBadEntropy = errors.New("entropy too low")
 )
 
 type ruleSet struct {
@@ -24,6 +26,7 @@ type ruleSet struct {
 	lowMin, lowMax int
 	numMin, numMax int
 	seqMax, dupMax float32
+	maxEntropyDiff float64
 	forbid         []string
 }
 
@@ -44,6 +47,10 @@ func (r *ruleSet) Validate(input string) (err error) {
 
 	if !r.checkForbidden(input) {
 		return ErrHasForbidden
+	}
+
+	if !r.validEntropy(s.EntropyIdeal - s.Entropy) {
+		return ErrBadEntropy
 	}
 
 	return nil
@@ -123,11 +130,27 @@ func (r *ruleSet) validNumbers(val int) bool {
 }
 
 func (r *ruleSet) validSeqRate(val float32) bool {
-	return val <= r.seqMax
+	if r.seqMax > 0 {
+		return val <= r.seqMax
+	}
+
+	return true
 }
 
 func (r *ruleSet) validDupRate(val float32) bool {
-	return val <= r.dupMax
+	if r.dupMax > 0 {
+		return val <= r.dupMax
+	}
+
+	return true
+}
+
+func (r *ruleSet) validEntropy(val float64) bool {
+	if r.maxEntropyDiff > 0 {
+		return val <= r.maxEntropyDiff
+	}
+
+	return true
 }
 
 func (r *ruleSet) checkForbidden(val string) bool {

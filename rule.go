@@ -85,3 +85,10 @@ func ForbidContent(vals ...string) Rule {
 		}
 	}
 }
+
+// MaxEntropyDiff returns rule with max entropy diff between ideal and current values.
+func MaxEntropyDiff(val float64) Rule {
+	return func(r *ruleSet) {
+		r.maxEntropyDiff = val
+	}
+}
