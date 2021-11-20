@@ -38,10 +38,7 @@ func TestValidateFail(t *testing.T) {
 		"acE3",
 		"acE3",
 		"acEF3",
-		"acEF35", // ok but less than 8
-		"abEF35Dg",
-		"abEE35Dg",
-		"abEF34Dg",
+		"acEF35",      // ok but less than 8
 		"abEF35Dg7$!", // ok but max len
 	}
 
@@ -205,6 +202,26 @@ func TestValidateForbidden(t *testing.T) {
 
 	for i, c := range cases {
 		if Validate(c, rules...) == nil {
+			t.Fatalf("case: %d fail for: '%s'", i, c)
+		}
+	}
+}
+
+func TestValidateEntropy(t *testing.T) {
+	t.Parallel()
+
+	cases := []string{
+		"13f",
+		"Hello world!",
+	}
+
+	rules := []Rule{
+		MinLen(4),
+		MaxEntropyDiff(0.3),
+	}
+
+	for i, c := range cases {
+		if err := Validate(c, rules...); err == nil {
 			t.Fatalf("case: %d fail for: '%s'", i, c)
 		}
 	}

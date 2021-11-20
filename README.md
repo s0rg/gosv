@@ -19,8 +19,9 @@ var MyRules = []gosv.Rule{
     gosv.MinLowers(1),
     gosv.MinUppers(1),
     gosv.MinNumbers(1),
-    gosv.MaxDuplicates(0.2), // allow 20% of duplicates
-    gosv.MaxSequencies(0.1), // allow 10% of sequencies (i.e. 'abc', '123')
+    gosv.MaxDuplicates(0.2),  // limit duplicates to 20%
+    gosv.MaxSequencies(0.1),  // limit sequencies to 10% (i.e. 'abc', '123')
+    gosv.MaxEntropyDiff(0.3), // limit entropy diff between ideal and current entropy values
 }
 
 func MyPasswordValidator(input string) error {
