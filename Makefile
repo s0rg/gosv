@@ -1,4 +1,4 @@
-COVER=test.cover
+COVER=cover.out
 
 .PHONY: vet lint test test-cover clean
 
