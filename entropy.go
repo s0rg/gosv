@@ -20,14 +20,9 @@ func (e *entropy) Add(r rune) {
 }
 
 func (e *entropy) Sum() (rv float64) {
-	prob := make([]float64, 0, len(e.chars))
-
 	for _, count := range e.chars {
-		prob = append(prob, float64(count)/float64(e.length))
-	}
-
-	for _, p := range prob {
-		rv += p * math.Log(p)
+		t := float64(count) / float64(e.length)
+		rv += t * math.Log(t)
 	}
 
 	return -rv
